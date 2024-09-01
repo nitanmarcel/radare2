@@ -94,6 +94,9 @@ static struct cEnv_t* r_egg_cfile_set_cEnv(const char *arch, const char *os, int
 	char *buffer = NULL;
 	char *output = NULL;
 
+	char *env_cflags = r_sys_getenv("EGG_CFLAGS");
+	char *env_ldflags = r_sys_getenv("EGG_LDFLAGS");
+
 	if (!cEnv) {
 		return NULL;
 	}
@@ -152,6 +155,20 @@ static struct cEnv_t* r_egg_cfile_set_cEnv(const char *arch, const char *os, int
 			cEnv->CFLAGS = strdup ("-fPIC -fPIE -pie -fpic -nostartfiles");
 			cEnv->LDFLAGS = strdup ("-fPIC -fPIE -pie -fpic -nostartfiles");
 		}
+	}
+
+	if (env_cflags) {
+		char buffer[1024];
+		snprintf (buffer, sizeof(buffer), "%s %s", cEnv->CFLAGS, env_cflags);
+		free (cEnv->CFLAGS);
+		cEnv->CFLAGS = strdup (buffer);
+	}
+
+	if (env_ldflags) {
+		char buffer[1024];
+		snprintf (buffer, sizeof(buffer), "%s %s", cEnv->LDFLAGS, env_ldflags);
+		free (cEnv->LDFLAGS);
+		cEnv->LDFLAGS = strdup (buffer);
 	}
 
 	cEnv->TRIPLET = r_str_newf ("%s-%s-%d", os, arch, bits);

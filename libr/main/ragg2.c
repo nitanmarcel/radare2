@@ -115,7 +115,10 @@ static int usage(int v) {
 			" -x              execute\n"
 			" -X [hexpairs]   execute rop chain, using the stack provided\n"
 			" -z              output in C string syntax\n"
-			"R2_NOPLUGINS=1   do not load any plugin\n");
+			"R2_NOPLUGINS=1   do not load any plugin\n"
+			"R2_LDFLAGS       append extra ldflags\n"
+			"R2_CFLAGS        append extra cflags\n"
+			);
 	}
 	return 1;
 }
